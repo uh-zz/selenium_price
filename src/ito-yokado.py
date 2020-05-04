@@ -63,7 +63,7 @@ def execSearch(browser: webdriver):
         detail_item = detail_item.splitlines()
 
         # 精肉以外はスルー
-        if False == DOMESTIC_NAME in detail_item[DOMESTIC]:
+        if DOMESTIC_NAME != detail_item[DOMESTIC]:
             continue
 
         # ディクショナリー内で整形
@@ -74,8 +74,10 @@ def execSearch(browser: webdriver):
             'per_100g': detail_item[PER_100G_PRICE]
         }
 
+        print("json_item:", json_item)
+
         # jsonに変換してリストに追加        
-        total_item.append(json.dumps(detail_item, ensure_ascii=False))
+        total_item.append(json.dumps(json_item, ensure_ascii=False))
 
     print("total_item:", total_item)
 
