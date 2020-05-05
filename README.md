@@ -2,8 +2,6 @@
 selenium_price
 ====
 
-Overview
-
 ## Description
 - ネットスーパーから商品名、価格を取得するアプリ
 
