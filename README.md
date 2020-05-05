@@ -1,4 +1,3 @@
-## Name
 selenium_price
 ====
 
