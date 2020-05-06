@@ -17,9 +17,7 @@ cd selenium_price
 
 docker-compose up -d
 
-docker exec -it python /bin/bash
-
-python ito-yokado.py
+curl http://localhost:5001/search -X POST -H "Content-Type: application/json" -d '{}'
 ```
 
 ## Author
