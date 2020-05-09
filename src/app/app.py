@@ -19,7 +19,7 @@ app.config['JSON_AS_ASCII'] = False
 def execSearch():
 
     # ネットスーパーURL
-    URL = 'https://www.iy-net.jp/nspc/shoptop.do?shopcd=00239'
+    URL = request.get_json()['url']
 
     # 検索ワード
     SEARCH_WORD = '鶏肉'
