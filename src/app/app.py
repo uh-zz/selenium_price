@@ -10,6 +10,7 @@ from flask import Flask, jsonify, request
 
 import datetime
 import json
+import re
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -84,9 +85,9 @@ def execSearch():
             # ディクショナリー内で整形
             json_item = {
                 'product': detail_item[PRODUCT_NAME],
-                'price': detail_item[PRICE],
-                'tax_included_price': detail_item[TAX_INCLUDED_PRICE],
-                'per_100g': detail_item[PER_100G_PRICE]
+                'price': convertPrice(detail_item[PRICE]),
+                'tax_included_price': convertPrice(detail_item[TAX_INCLUDED_PRICE]),
+                'per_100g': convertPrice(detail_item[PER_100G_PRICE])
             }
 
             print("json_item:", json_item)
@@ -194,6 +195,11 @@ def execGetShopList():
         # 終了
         browser.close()
         browser.quit()
+
+# 文字列から価格を抽出
+def convertPrice(str_price):
+    search_price = re.findall('\d+', str_price)
+    return int(search_price[-1])
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5001, debug=True)
