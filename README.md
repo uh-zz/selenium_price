@@ -18,7 +18,7 @@ cd selenium_price
 docker-compose up -d
 
 # 鶏肉価格取得API
-curl http://localhost:5001/search -X POST -H "Content-Type: application/json" -d  "{'url':'(店舗URL)'}"
+curl http://localhost:5001/search -X POST -H "Content-Type: application/json" -d '{"url":"(店舗URL)"}'
 
 # 店舗URL取得API
 curl http://localhost:5001/shoplist
