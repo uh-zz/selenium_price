@@ -9,4 +9,4 @@ RUN set -x && \
   pip install selenium　&& \
   pip install flask
 
-CMD [ "python", "app.py" ]
+CMD [ "python", "run.py" ]
