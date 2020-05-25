@@ -61,6 +61,11 @@ def execSearch():
             EC.presence_of_element_located((By.CSS_SELECTOR, ".goodslist"))
         )    
 
+        # 店舗名
+        shop_name =browser.find_element_by_css_selector(
+            ".shopname"
+        )
+
         # 商品名と価格のリストを取得
         goods_list =browser.find_elements_by_css_selector(
             ".goodsitem"
@@ -92,6 +97,7 @@ def execSearch():
 
         result = {
             "Content-Type": "application/json",
+            "shop_name": shop_name.text,
             "total_item": total_item
         }
 
@@ -117,5 +123,5 @@ def execSearch():
 
 # 文字列から価格を抽出
 def convertPrice(str_price):
-    search_price = re.findall('\d+', str_price)
-    return int(search_price[-1])
+    search_price = re.findall('[\d.]+', str_price)
+    return int(float(search_price[-1]))
