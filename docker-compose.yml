@@ -32,6 +32,12 @@ services:
     volumes:
       - ./src/app/:/root/src/app/
     restart: always
+    networks: 
+      - default
+      - shared-network
+networks: 
+    shared-network:
+        external: true
       
   # firefox:
   #   image: selenium/node-firefox:3.141.59-20200409
