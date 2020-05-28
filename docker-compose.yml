@@ -33,8 +33,10 @@ services:
       - ./src/app/:/root/src/app/
     restart: always
     networks: 
-      - default
-      - shared-network
+      default:
+      shared-network:
+        aliases: 
+          - selenium-python
 networks: 
     shared-network:
         external: true
