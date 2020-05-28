@@ -9,6 +9,10 @@ from selenium.common.exceptions import NoSuchElementException
 from flask import Blueprint, jsonify, request
 
 import re
+import sys
+
+# キャッシュを作らない
+sys.dont_write_bytecode = True
 
 search = Blueprint('search', __name__)
 
