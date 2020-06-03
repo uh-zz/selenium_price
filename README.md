@@ -33,6 +33,18 @@ curl http://localhost:5001/aeon_search -X POST -H "Content-Type: application/jso
 <!-- 店舗URL取得API -->
 curl http://localhost:5001/shoplist
 
+
+<!-- 例　-->
+ヨーカド
+curl http://localhost:5001/yokado_search -X POST -H "Content-Type: application/json" -d '{"url":"https://www.iy-net.jp/nspc/shoptop.do?shopcd=00239"}
+'
+
+イオン
+curl http://localhost:5001/aeon_search -X POST -H "Content-Type: application/json" -d '{"url":"https://shop.aeon.com/netsuper/01050000060350/"}'
+
+ライフ
+curl http://localhost:5001/life_search -X POST -H "Content-Type: application/json" -d '{"url":"https://www.life-netsuper.jp/kamakuraoofunamohru/"}
+
 ```
 
 ## Author
