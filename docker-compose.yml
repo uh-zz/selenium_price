@@ -21,7 +21,7 @@ services:
       - "5900:5900"
 
   flask-app:
-    build: './python-selenium'
+    build: './src/app/python-selenium'
     ports: 
       - "5001:5001"
     container_name: 'flask-app'
