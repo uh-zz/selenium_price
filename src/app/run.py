@@ -8,6 +8,11 @@ from shoplist.shoplist import shoplist
 
 from flask import Flask
 
+import sys
+
+# キャッシュを作らない
+sys.dont_write_bytecode = True
+
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 

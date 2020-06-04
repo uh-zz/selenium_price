@@ -5,6 +5,11 @@ from selenium.common.exceptions import NoSuchElementException
 
 from flask import Blueprint, jsonify, request
 
+import sys
+
+# キャッシュを作らない
+sys.dont_write_bytecode = True
+
 shoplist = Blueprint('shoplist', __name__)
 
 @shoplist.route("/shoplist", methods=['GET'])
