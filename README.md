@@ -23,8 +23,12 @@ docker network create shared-network
 
 docker-compose up -d
 
-<!-- 鶏肉価格取得API -->
+<!-- 鶏肉価格取得API ヨーカドー -->
 curl http://localhost:5001/search -X POST -H "Content-Type: application/json" -d '{"url":"(店舗URL)"}'
+<!-- 鶏肉価格取得API ライフ　-->
+curl http://localhost:5001/life_search -X POST -H "Content-Type: application/json" -d '{"url":"(店舗URL)"}'
+<!-- 鶏肉価格取得API イオン　-->
+curl http://localhost:5001/aeon_search -X POST -H "Content-Type: application/json" -d '{"url":"(店舗URL)"}'
 
 <!-- 店舗URL取得API -->
 curl http://localhost:5001/shoplist
