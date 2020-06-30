@@ -1,5 +1,4 @@
 #!/usr/local/bin/python3
-#ヨーカドーの価格取得
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support.ui import WebDriverWait
@@ -18,11 +17,9 @@ def execSearch():
 
     # ネットスーパーURL
     URL = request.get_json()['url']
-    print("URL", URL)
 
     # 検索ワード
     SEARCH_WORD = '鶏肉'
-    print("SEARCH_WORD", SEARCH_WORD)
 
     # 産地
     DOMESTIC = 0
@@ -36,7 +33,6 @@ def execSearch():
     TAX_INCLUDED_PRICE = 3
     # 100gあたり
     PER_100G_PRICE = 4
-    print("PER_100G_PRICE", PER_100G_PRICE)
 
     # スクリーンショットのファイル名用に日付を取得
     # dt = datetime.datetime.today()
@@ -54,9 +50,7 @@ def execSearch():
 
         # キーワードの入力
         search_box = browser.find_element_by_id("searchtxt")
-        print("search_box ", search_box )
         search_box.send_keys(SEARCH_WORD)
-        print("SEARCH_WORD", SEARCH_WORD)
 
         # 検索実行
         search_btn = browser.find_element_by_name("search")
@@ -64,35 +58,29 @@ def execSearch():
 
         # ページが表示されるまで待機
         WebDriverWait(browser, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, ".item_list"))
-        )
+            EC.presence_of_element_located((By.CSS_SELECTOR, ".goodslist"))
+        )    
 
-        # # 店舗名
-        # shop_name =browser.find_element_by_css_selector(
-        #     ".shopname"
-        # )
-        # print("shop_name", shop_name)
+        # 店舗名
+        shop_name =browser.find_element_by_css_selector(
+            ".shopname"
+        )
 
         # 商品名と価格のリストを取得
         goods_list =browser.find_elements_by_css_selector(
-            ".item_detail"
+            ".goodsitem"
         )
-        print("item_detail", goods_list)
 
         total_item = []
         for item in goods_list:
-            print("item", item)
+
             # 全角スペース削除
             detail_item = item.text.replace('\u3000', '')
-            print("detail_item", detail_item)
             # リスト化
             detail_item = detail_item.splitlines()
-            print("detail_item", detail_item)
 
             # 精肉以外はスルー
             if DOMESTIC_NAME != detail_item[DOMESTIC]:
-                print("DOMESTIC_NAME", DOMESTIC_NAME )
-                print("detail_item", detail_item[DOMESTIC])
                 continue
 
             # ディクショナリー内で整形
@@ -102,10 +90,7 @@ def execSearch():
                 'tax_included_price': convertPrice(detail_item[TAX_INCLUDED_PRICE]),
                 'per_100g': convertPrice(detail_item[PER_100G_PRICE])
             }
-            print("detail_item[PRODUCT_NAME]", detail_item[PRODUCT_NAME])
-            print("detail_item[PRODUCT_NAME]", detail_item[PRICE])
-            print("detail_item[PRODUCT_NAME]", detail_item[TAX_INCLUDED_PRICE])
-            print("detail_item[PRODUCT_NAME]", detail_item[PER_100G_PRICE])
+
             print("json_item:", json_item)
 
             total_item.append(json_item)
@@ -115,7 +100,6 @@ def execSearch():
             "shop_name": shop_name.text,
             "total_item": total_item
         }
-        print("result", result)
 
         return jsonify(result)
 
