@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 # -*- coding: utf-8 -*-
-from yokado_search.yokado_search import yokado_search
-from life_search.life_search import life_search
+from itoyokado.itoyokado import itoyokado
+from life.life import life
 from aeon_search.aeon_search import aeon_search
 from shoplist.shoplist import shoplist
 
@@ -17,11 +17,11 @@ app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
 # 店舗一覧api
-app.register_blueprint(shoplist)
+# app.register_blueprint(shoplist)
 # 価格取得api
-app.register_blueprint(yokado_search)
+app.register_blueprint(itoyokado)
 # 価格取得apiライフ
-app.register_blueprint(life_search)
+app.register_blueprint(life)
 # 価格取得apiイオン
 app.register_blueprint(aeon_search)
 

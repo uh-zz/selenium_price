@@ -15,9 +15,9 @@ import sys
 # キャッシュを作らない
 sys.dont_write_bytecode = True
 
-life_search = Blueprint('life_search', __name__)
+life = Blueprint('life', __name__)
 
-@life_search.route("/life_search", methods=['POST'])
+@life.route("/life/search", methods=['POST'])
 def execSearch():
 
     # ネットスーパーURL
@@ -75,7 +75,7 @@ def execSearch():
         goods_list =browser.find_elements_by_css_selector(
             ".item_detail"
         )
-        print("goods_list", goods_list )
+        print("goods_list", goods_list)
 
         total_item = []
         for item in goods_list:
@@ -129,8 +129,94 @@ def execSearch():
         browser.close()
         browser.quit()
 
+@life.route("/life/shoplist", methods=['GET'])
+def execGetShopList():
+
+    # 店舗一覧
+    URL = 'https://www.life-netsuper.jp/'
+
+    # スクリーンショットのファイル名用に日付を取得
+    # dt = datetime.datetime.today()
+    # dtstr = dt.strftime("%Y%m%d%H%M%S")
+
+    try:
+        # HEADLESSブラウザに接続
+        browser = webdriver.Remote(
+            command_executor='http://selenium-hub:4444/wd/hub',
+            desired_capabilities=DesiredCapabilities.CHROME)
+
+        # 最初のページ
+        browser.get(URL)
+
+        # ページが表示されるまで待機
+        WebDriverWait(browser, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, ".entry_title"))
+        )
+                        
+        # 関東圏
+        kanto_json = formatShopList(browser, "disp1")
+        # 関西圏
+        kansai_json = formatShopList(browser, "disp2")
+      
+        # 2つのリストを結合
+        kanto_json.extend(kansai_json)
+
+        result = {
+            "Content-Type": "application/json",
+            "shop_list": kanto_json            
+        }
+
+        return jsonify(result)
+
+    finally:
+        # 終了
+        browser.close()
+        browser.quit()
 
 # 文字列から価格を抽出
 def convertPrice(str_price):
     search_price = re.findall('[\d.]+', str_price)
     return int(float(search_price[-1]))
+
+# レスポンス用に店舗リストを整形
+def formatShopList(browser, div_name):
+    table_list =browser.find_element_by_id(
+        div_name
+    )
+
+    prefecture_list = table_list.find_elements_by_css_selector(
+        ".anarea"
+    )
+
+    # 店舗
+    shop_ul_list = table_list.find_elements_by_tag_name(
+        'ul'
+    )
+
+      
+    shop_list = []
+    for shop_number in range(len(shop_ul_list)):
+        
+        shop_prefecture = prefecture_list[shop_number]
+        shop_li_list = shop_ul_list[shop_number].find_elements_by_tag_name(
+            'li'
+        )
+
+        # 各都道府県ごとに処理 
+        for shop_li in shop_li_list:
+            
+            shop_p = shop_li.find_element_by_tag_name(
+                'p'
+            )
+            shop_a = shop_li.find_element_by_tag_name(
+                'a'
+            )
+            shop_json = {
+                "prefecture": shop_prefecture.get_attribute("textContent"),
+                "shop_name": shop_p.get_attribute("textContent"),
+                "url": shop_a.get_attribute('href')
+            }
+
+            shop_list.append(shop_json)
+
+    return shop_list
