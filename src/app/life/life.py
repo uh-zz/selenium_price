@@ -75,24 +75,17 @@ def execSearch():
         goods_list =browser.find_elements_by_css_selector(
             ".item_detail"
         )
-        print("goods_list", goods_list)
 
         total_item = []
         for item in goods_list:
-            print("item", item )
-
             # 全角スペース削除
             detail_item = item.text.replace('\u3000', '')
-            print("detail_item", detail_item)
             # リスト化
             detail_item = detail_item.splitlines()
-            print("detail_item", detail_item)
 
             # 精肉以外はスルー
             if DOMESTIC_NAME != detail_item[DOMESTIC]:
                 continue
-                print("DOMESTIC_NAME ", detail_item[DOMESTIC] )
-
 
             json_item = {
                 'product': detail_item[PRODUCT_NAME],
@@ -100,8 +93,6 @@ def execSearch():
                 'tax_included_price': convertPrice(detail_item[TAX_INCLUDED_PRICE]),
                 'per_100g': convertPrice(detail_item[PER_100G_PRICE])
             }
-
-            print("json_item:", json_item)
 
             total_item.append(json_item)
 
@@ -116,7 +107,6 @@ def execSearch():
         # browser.save_screenshot('images/' + dtstr + '.png')
 
     except NoSuchElementException as e:
-        print("NoSuchElementException!!!")
 
         reslut = {
             "Content-Type": "application/json",
